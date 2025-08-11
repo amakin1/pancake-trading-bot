@@ -1,0 +1,61 @@
+mixed-port: 7890
+allow-lan: true
+bind-address: "*"
+mode: Rule
+log-level: info
+ipv6: false
+
+dns:
+  enable: true
+  listen: 0.0.0.0:1053
+  default-nameserver:
+    - 1.1.1.1
+    - 8.8.8.8
+  nameserver:
+    - https://1.1.1.1/dns-query
+    - https://8.8.8.8/dns-query
+
+proxies:
+  - name: "233boy-reality-my.romatic.shop"
+    type: vless
+    server: my.romatic.shop
+    port: 39556
+    uuid: c520d1ee-c271-4772-94e0-b8c412b4142b
+    udp: true
+    network: tcp
+    flow: xtls-rprx-vision
+    reality-opts:
+      public-key: G3bldd39aDOePWEeze3GoJ6b5DDcac3HMnAVqG-eSAs
+      short-id: ""
+    servername: www.amazon.com
+    tls: true
+    client-fingerprint: chrome
+
+proxy-groups:
+  - name: "🚀 节点选择"
+    type: select
+    proxies:
+      - "233boy-reality-my.romatic.shop"
+      - DIRECT
+
+  - name: "🌍 国外流量"
+    type: select
+    proxies:
+      - "🚀 节点选择"
+      - DIRECT
+
+  - name: "🍎 苹果服务"
+    type: select
+    proxies:
+      - DIRECT
+      - "🚀 节点选择"
+
+  - name: "📢 谷歌FCM"
+    type: select
+    proxies:
+      - DIRECT
+      - "🚀 节点选择"
+
+rules:
+  - GEOIP,CN,DIRECT
+  - MATCH,🌍 国外流量
