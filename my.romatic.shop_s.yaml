@@ -11,12 +11,12 @@ dns:
   ipv6: false
   enhanced-mode: fake-ip
   fake-ip-range: 198.18.0.1/16
-  # 国内直连 DNS
+  # 国内直连 DNS（先解析国内域名）
   nameserver:
     - 223.5.5.5
     - 119.29.29.29
     - https://dns.alidns.com/dns-query
-  # 国外 DNS（走代理）
+  # 国外 DNS（走代理解析，防止被墙）
   fallback:
     - tls://1.1.1.1:853
     - https://1.1.1.1/dns-query
@@ -45,27 +45,11 @@ proxies:
     tls: true
     client-fingerprint: chrome
 
-  - name: "233boy-reality-47.251.91.168"
-    type: vless
-    server: 47.251.91.168
-    port: 39689
-    uuid: 8e92a409-d059-45db-b75f-c12d95f97100
-    udp: true
-    network: tcp
-    flow: xtls-rprx-vision
-    reality-opts:
-      public-key: RHB0lwGdHMXl7rRChAszkix1iHJaAcaOfJOjLzNWQTE
-      short-id: ""
-    servername: aws.amazon.com
-    tls: true
-    client-fingerprint: chrome
-
 proxy-groups:
   - name: "🚀 节点选择"
     type: select
     proxies:
       - "233boy-reality-23.27.24.50"
-      - "233boy-reality-47.251.91.168"
       - DIRECT
 
   - name: "🌍 国外流量"
