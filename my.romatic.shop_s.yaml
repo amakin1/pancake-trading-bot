@@ -8,15 +8,29 @@ ipv6: false
 dns:
   enable: true
   listen: 0.0.0.0:1053
-  default-nameserver:
-    - 1.1.1.1
-    - 8.8.8.8
+  ipv6: false
+  enhanced-mode: fake-ip
+  fake-ip-range: 198.18.0.1/16
+  # 国内直连 DNS（先解析国内域名）
   nameserver:
+    - 223.5.5.5
+    - 119.29.29.29
+    - https://dns.alidns.com/dns-query
+  # 国外 DNS（走代理解析，防止被墙）
+  fallback:
+    - tls://1.1.1.1:853
     - https://1.1.1.1/dns-query
-    - https://8.8.8.8/dns-query
+  fallback-filter:
+    geoip: true
+    geoip-code: CN
+    ipcidr:
+      - 0.0.0.0/8
+      - 127.0.0.0/8
+      - 224.0.0.0/4
+      - 240.0.0.0/4
 
 proxies:
-  - name: "233boy-reality-my.romatic.shop"
+  - name: "233boy-reality-23.27.24.50"
     type: vless
     server: my.romatic.shop
     port: 39556
@@ -35,7 +49,7 @@ proxy-groups:
   - name: "🚀 节点选择"
     type: select
     proxies:
-      - "233boy-reality-my.romatic.shop"
+      - "233boy-reality-23.27.24.50"
       - DIRECT
 
   - name: "🌍 国外流量"
@@ -59,4 +73,3 @@ proxy-groups:
 rules:
   - GEOIP,CN,DIRECT
   - MATCH,🌍 国外流量
-
